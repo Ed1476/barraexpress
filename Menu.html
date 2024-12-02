@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barra Express Café</title>
+    <link rel="stylesheet" href="esbe.css">
+    <img src="../BarraExpress/Img/Logo.png">
+    <style type="text/css" media="screen">
+        .carousel {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+        }
+        #imagen {
+            width: 100%;
+            height: 400px;
+            background-size: cover;
+        }
+    </style>
+
+    <script>
+    window.onload = function () {
+        
+        const IMAGENES = [
+            'Img/002.jpg',
+            'Img/00111.jpg',
+            'Img/10.jpg',
+            'Img/6.jpg',
+            'Img/0000.jpg',
+            'Img/09.jpg',
+            'Img/54OCT.jpg',
+            
+        ];
+        const TIEMPO_INTERVALO_MILESIMAS_SEG = 1000;
+        let posicionActual = 0;
+        let $botonRetroceder = document.querySelector('#retroceder');
+        let $botonAvanzar = document.querySelector('#avanzar');
+        let $imagen = document.querySelector('#imagen');
+        let $botonPlay = document.querySelector('#play');
+        let $botonStop = document.querySelector('#stop');
+        let intervalo;
+
+        function pasarFoto() {
+                if(posicionActual >= IMAGENES.length - 1) {
+                    posicionActual = 0;
+                } else {
+                    posicionActual++;
+                }
+                renderizarImagen();
+            }
+
+            function retrocederFoto() {
+                if(posicionActual <= 0) {
+                    posicionActual = IMAGENES.length - 1;
+                } else {
+                    posicionActual--;
+                }
+                renderizarImagen();
+            }
+
+            function renderizarImagen () {
+                $imagen.style.backgroundImage = `url(${IMAGENES[posicionActual]})`;
+            }
+
+            function playIntervalo() {
+                intervalo = setInterval(pasarFoto, TIEMPO_INTERVALO_MILESIMAS_SEG);
+                // Desactivamos los botones de control
+                $botonAvanzar.setAttribute('disabled', true);
+                $botonRetroceder.setAttribute('disabled', true);
+                $botonPlay.setAttribute('disabled', true);
+                $botonStop.removeAttribute('disabled');
+            }
+            function stopIntervalo() {
+                clearInterval(intervalo);
+                // Activamos los botones de control
+                $botonAvanzar.removeAttribute('disabled');
+                $botonRetroceder.removeAttribute('disabled');
+                $botonPlay.removeAttribute('disabled');
+                $botonStop.setAttribute('disabled', true);
+            }
+
+            $botonAvanzar.addEventListener('click', pasarFoto);
+            $botonRetroceder.addEventListener('click', retrocederFoto);
+            $botonPlay.addEventListener('click', playIntervalo);
+            $botonStop.addEventListener('click', stopIntervalo);
+           
+            renderizarImagen();
+        }
+    </script>
+    </head>
+
+    <body>
+        <header>
+            <h1>MENÚ</h1>
+            <div>
+                <nav class="Menu">
+                    <a href="#"Inicio> </a>
+                    <a href="../BarraExpress/Img/7.jpg">Productos </a>
+                    <a href="#"Productos></a>
+                    <a href="..BarraExpress/Eventos.html">Eventos</a>
+                </nav>
+            </div>
+            <div class="carousel">
+                <button id="retroceder">Retroceder</button>
+                <div id="imagen"></div>
+                <button id="avanzar">Avanzar</button>
+            </div>
+            <div class="controles">
+                <button id="play">Play</button>
+                <button id="stop" disabled>Stop</button>
+            </div>
+           
+
+        </header>
+    </body>
+</html>
